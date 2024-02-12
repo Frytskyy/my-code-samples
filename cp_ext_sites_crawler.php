@@ -6,7 +6,7 @@
 	//	RE-DISTRIBUTED OR USED BY ANY MEANS WHATSOEVER WITHOUT THE EXPRESSED WRITTEN
 	//	CONSENT OF VOLODYMYR FRYTSKYY.
 	//
-	//	CONTACT INFORMATION: support@vladonai.com, www.vladonai.com, www.allmynotes.org
+        //	CONTACT INFORMATION: https://www.vladonai.com/about-resume, www.vladonai.com, www.allmynotes.org
 	//	License: https://www.vladonai.com/allmynotes-organizer-license-agreement
 
 	//Cron sample to run this script: 
