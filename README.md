@@ -1,13 +1,13 @@
 # my-code-samples
 
-My code samples for HR/emplyment purposes
+**HR/Employment Code Samples**
 
-These code snippets are here to illustrate my code formatting samples - naming conventions, comments, variable naming, and, algorithms styling. You can expect either this style, or, I'll adjust to your style/requirements.
+This repository showcases my coding style and best practices, including naming conventions, clear comments, meaningful variable names, and well-structured algorithms. You'll find examples that adhere to these principles, and I'm also happy to adapt my style to your specific requirements.
 
-# below are links to some of my web projects (a very limited list, actual list of sites is bigger):
+**Web Project Portfolio (Limited Selection)**
 
-My wite samples for HR/emplyment purposes:
+While this list highlights a few of my web projects, my experience extends beyond these samples.
 
-<p><a href="https://www.vladonai.com">Vladonai Software website</a></p>
-<p><a href="https://pass.allmynotes.org/info?target=loading-of-all)">Electronic register of Ukrainian broder crossing lines</a> the site was created to simplyfy border passing during the war. This is the demo version of it, as working version is currently offline.</p>
-<p><a href="https://one.allmynotes.info/bible-reading?info=about_god_names_bible)))">Online Bible in Russian, social project.</p>
+* **Vladonai Software Website** (https://www.vladonai.com)
+* **Electronic Register of Ukrainian Border Crossing Lines** (**Currently Demo Only**): https://pass.allmynotes.org/info?target=loading-of-all This site, created to streamline border crossings during the war, is currently in demo mode. The live version is currently unavailable.
+* **Online Bible in Russian (Social Project)**: https://one.allmynotes.info/bible-reading?info=about_god_names_bible)))
