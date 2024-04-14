@@ -1,6 +1,6 @@
 <?PHP
-  //This is a fragment of code of automatic quque managemement/registration, 
-  //can be tested by this URL: https://pass.allmynotes.org/info?target=loading-of-all
+	//This is a fragment of code of automatic quque managemement/registration, 
+	//can be tested by this URL: https://pass.allmynotes.org/info?target=loading-of-all
 	include_once("core_pass.php");
 	include_once("core_mail.php");
 
@@ -51,11 +51,11 @@
 
 				if ($car_pass_info[DATA_KEY_B_ENRENCE])
 				{
-          $in_cars_list_html .= "<p>" . $in_car_n . '. <b><a href="' . URL_homepage . '/?plate=' . $car_pass_info[DATA_KEY_CAR_PLATE] .'">' . $car_pass_info[DATA_KEY_CAR_PLATE] . "</a></b> - Expected entry to Ukraine " . date('j.m.Y G:i', $car_passing_eta['queue_passing_date']) . " - in " . $car_passing_eta['queue_passing_eta_str'] . "</p>";
+					$in_cars_list_html .= "<p>" . $in_car_n . '. <b><a href="' . URL_homepage . '/?plate=' . $car_pass_info[DATA_KEY_CAR_PLATE] .'">' . $car_pass_info[DATA_KEY_CAR_PLATE] . "</a></b> - Expected entry to Ukraine " . date('j.m.Y G:i', $car_passing_eta['queue_passing_date']) . " - in " . $car_passing_eta['queue_passing_eta_str'] . "</p>";
 					$in_car_n ++;
 				} else
 				{
-          $out_cars_list_html .= "<p>" . $out_car_n . '. <b><a href="' . URL_homepage . '/?plate=' . $car_pass_info[DATA_KEY_CAR_PLATE] .'">' . $car_pass_info[DATA_KEY_CAR_PLATE] . "</a></b> - Expected exit from Ukraine " . date('j.m.Y G:i', $car_passing_eta['queue_passing_date']) . " - in " . $car_passing_eta['queue_passing_eta_str'] . "</p>";
+					$out_cars_list_html .= "<p>" . $out_car_n . '. <b><a href="' . URL_homepage . '/?plate=' . $car_pass_info[DATA_KEY_CAR_PLATE] .'">' . $car_pass_info[DATA_KEY_CAR_PLATE] . "</a></b> - Expected exit from Ukraine " . date('j.m.Y G:i', $car_passing_eta['queue_passing_date']) . " - in " . $car_passing_eta['queue_passing_eta_str'] . "</p>";
 					$out_car_n ++;
 				}
 			}
@@ -118,9 +118,9 @@
 		//
 		//////////////////////////////////////////////////
 
-    draw_pass_document_top("Queue Status at Checkpoint", "TlbrWholeLineStatusBtn", "Queue Status at Checkpoint, how many trucks are waiting at the border", "Queue Status at Checkpoint");
+		draw_pass_document_top("Queue Status at Checkpoint", "TlbrWholeLineStatusBtn", "Queue Status at Checkpoint, how many trucks are waiting at the border", "Queue Status at Checkpoint");
 
-    echo '<h1>Queue Status by Checkpoint ' . $pass_points_array[$pass_point_id] . '</h1><br />';
+		echo '<h1>Queue Status by Checkpoint ' . $pass_points_array[$pass_point_id] . '</h1><br />';
 		
 		foreach ($pass_points_array as $point_id => $point_name)
 		{
