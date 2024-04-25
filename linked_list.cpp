@@ -1,8 +1,8 @@
-//	THIS SOURCE FILE IS THE PROPERTY OF VOLODYMYR FRYTSKYY AND IS NOT TO BE
-//	RE-DISTRIBUTED OR USED BY ANY MEANS WHATSOEVER WITHOUT THE EXPRESSED WRITTEN
-//	CONSENT OF VOLODYMYR FRYTSKYY.
+//  THIS SOURCE FILE IS THE PROPERTY OF VOLODYMYR FRYTSKYY AND IS NOT TO BE
+//  RE-DISTRIBUTED OR USED BY ANY MEANS WHATSOEVER WITHOUT THE EXPRESSED WRITTEN
+//  CONSENT OF VOLODYMYR FRYTSKYY.
 //
-//	CONTACT INFORMATION: fritskiy (At) gmail (dot) com
+//  CONTACT INFORMATION: fritskiy(At) gmail(dot) com
 //
 //  The simplest way to launch this code is to simply copy-paste it to https://www.onlinegdb.com/ and press Run button
 
@@ -10,72 +10,69 @@
 #include <string>
 #include <cassert>
 
-
 // Single Node struct of our linked list
-template <typename T>
-struct SOneNode 
+template <typename T> struct SOneNode
 {
     //Data:
-    T           m_data;
-    SOneNode*   m_pPrev;
-    SOneNode*   m_pNext;
-
+    SOneNode * m_pPrev = nullptr;
+    SOneNode * m_pNext = nullptr;
+    T        * m_pData = nullptr;
+    bool       m_bAutoDeallocateData = false;
+    
     //Methods:
-                SOneNode(const T& value) : m_data(value), m_pPrev(nullptr), m_pNext(nullptr) {}
-    SOneNode*   HyperJump(int stepsN)
+    SOneNode(T * pData, bool bAutoDeallocateData = true): m_pData(pData), m_pPrev(nullptr), m_pNext(nullptr), m_bAutoDeallocateData(bAutoDeallocateData) {}
+    ~SOneNode() { if(m_bAutoDeallocateData) { if(m_pData) delete m_pData; } }
+    
+    SOneNode * HyperJump(int stepsN)
     {
-        SOneNode *pCurrentNode = this;
-
-        if (stepsN > 0) 
+        SOneNode * pCurrentNode = this;
+        
+        if(stepsN > 0)
         {
-            while (pCurrentNode != nullptr && stepsN > 0) 
+            while (pCurrentNode != nullptr && stepsN > 0)
             {
                 pCurrentNode = pCurrentNode->m_pNext;
                 stepsN --;
             }
-        } else if (stepsN < 0) 
+        }
+        else if(stepsN < 0)
         {
-            while (pCurrentNode != nullptr && stepsN < 0) 
+            while (pCurrentNode != nullptr && stepsN < 0)
             {
                 pCurrentNode = pCurrentNode->m_pPrev;
                 stepsN ++;
             }
         }
-
         return pCurrentNode;
     }
 };
 
 // Linked List class itself :)
-template <typename T>
-class CLinkedList 
+template <typename T> class CLinkedList
 {
 private:
-
+    
     //Data:
-    SOneNode<T> *m_pHead;
-    SOneNode<T> *m_pTail;
-    size_t       m_size;
-
+    SOneNode<T> * m_pHead;
+    SOneNode<T> * m_pTail;
+    size_t        m_size;
+        
 public:
-
+    
     //Methods:
-                    CLinkedList() : m_pHead(nullptr), m_pTail(nullptr), m_size(0) {}
-                    ~CLinkedList() { clear(); }
-
-    SOneNode<T>*    getHead() const { return m_pHead; }
-    SOneNode<T>*    getTailNode() const { return m_pTail; }
-
-    size_t          getSize() const { return m_size; }
-    bool            isEmpty() const { return m_size == 0; }
-    void            clear() 
+                  CLinkedList(): m_pHead(nullptr), m_pTail(nullptr), m_size(0) {}
+                  ~CLinkedList() { clear(); }
+    
+    SOneNode<T> * getHead() const { return m_pHead; }
+    SOneNode<T> * getTailNode() const { return m_pTail; }
+    size_t        getSize() const { return m_size; }
+    bool          isEmpty() const { return m_size == 0; }
+    void          clear()
     {
-        SOneNode<T>* current = m_pHead;
-
-        while (current != nullptr) 
+        SOneNode < T > * current = m_pHead;
+        while(current != nullptr)
         {
-            SOneNode<T>* ptrToKill = current;
-
+            SOneNode < T > * ptrToKill = current;
             current = current->m_pNext;
             delete ptrToKill;
         }
@@ -83,16 +80,16 @@ public:
         m_pTail = nullptr;
         m_size = 0;
     }
-
-    void addFront(const T& value) 
+    void          addFront(T * pData)
     {
-        SOneNode<T>* newNode = new SOneNode<T>(value);
+        SOneNode<T> * newNode = new SOneNode<T>(pData);
         
-        if (isEmpty()) 
+        if (isEmpty())
         {
             m_pHead = newNode;
             m_pTail = newNode;
-        } else 
+        }
+        else
         {
             newNode->m_pNext = m_pHead;
             m_pHead->m_pPrev = newNode;
@@ -100,16 +97,15 @@ public:
         }
         m_size ++;
     }
-
-    void addBack(const T& value)
+    void          addBack(T * pData)
     {
-        SOneNode<T>* newNode = new SOneNode<T>(value);
-        
-        if (isEmpty()) 
+        SOneNode<T> * newNode = new SOneNode<T>(pData);
+        if (isEmpty())
         {
             m_pHead = newNode;
             m_pTail = newNode;
-        } else 
+        }
+        else
         {
             newNode->m_pPrev = m_pTail;
             m_pTail->m_pNext = newNode;
@@ -117,32 +113,29 @@ public:
         }
         m_size ++;
     }
-
-    void addValue(int posN, const T& value) 
+    void addValue(int posN, T * pData)
     {
-        if (posN < 0 || posN > static_cast<int>(m_size)) 
-        {
+        if (posN < 0 || posN > (int)m_size)
             return; // Invalid pos
-        }
-
-        if (posN == 0) 
+            
+        if (posN == 0)
         {
-            addFront(value);
+            addFront(pData);
             return;
-        } else if (posN == static_cast<int>(m_size)) 
+        } else if(posN == (int)m_size)
         {
-            addBack(value);
+            addBack(pData);
             return;
         }
-
-        SOneNode<T>* current = m_pHead;
         
-        for (int i = 0; i < posN; i ++) 
+        SOneNode < T > * current = m_pHead;
+        
+        for (int i = 0; i < posN; i ++)
         {
             current = current->m_pNext;
         }
-
-        SOneNode<T>* newNode = new SOneNode<T>(value);
+        
+        SOneNode<T> * newNode = new SOneNode<T>(pData);
         
         newNode->m_pPrev = current->m_pPrev;
         newNode->m_pNext = current;
@@ -150,40 +143,37 @@ public:
         current->m_pPrev = newNode;
         m_size ++;
     }
-
-    void removeFront() 
+    void removeFront()
     {
-        if (isEmpty()) 
+        if (isEmpty())
             return;
             
-        SOneNode<T>* temp = m_pHead;
-
-        if (m_pHead == m_pTail) 
+        SOneNode<T> * temp = m_pHead;
+        
+        if (m_pHead == m_pTail)
         {
             m_pHead = nullptr;
             m_pTail = nullptr;
-        } else 
+        } else
         {
             m_pHead = m_pHead->m_pNext;
             m_pHead->m_pPrev = nullptr;
         }
         delete temp;
-        m_size --;
+        m_size--;
     }
-
-    void removeBack() 
+    void removeBack()
     {
-        if (isEmpty()) 
-        {
+        if(isEmpty())
             return;
-        }
+            
+        SOneNode<T> * temp = m_pTail;
         
-        SOneNode<T>* temp = m_pTail;
-        if (m_pHead == m_pTail) 
+        if (m_pHead == m_pTail)
         {
             m_pHead = nullptr;
             m_pTail = nullptr;
-        } else 
+        } else
         {
             m_pTail = m_pTail->m_pPrev;
             m_pTail->m_pNext = nullptr;
@@ -194,124 +184,117 @@ public:
 };
 
 // Unit tests
-void runUnitTests() 
+void runUnitTests()
 {
     CLinkedList<int> list;
-
+    
     // Test initial state
     assert(list.isEmpty());
     assert(list.getSize() == 0);
 
     // Test adding and removing nodes
-    list.addFront(1);
+    list.addFront(new int(1));
     assert(!list.isEmpty());
     assert(list.getSize() == 1);
-
-    list.addBack(2);
+    list.addBack(new int(2));
     assert(list.getSize() == 2);
-
-    list.addFront(3);
+    list.addFront(new int(3));
     assert(list.getSize() == 3);
-
     list.removeBack();
     assert(list.getSize() == 2);
-
     list.removeFront();
     assert(list.getSize() == 1);
-
     list.clear();
     assert(list.isEmpty());
     assert(list.getSize() == 0);
 
     // Test adding value at position
-    list.addBack(1);
-    list.addBack(2);
-    list.addBack(4);
-    list.addValue(1, 3);
+    list.addBack(new int(1));
+    list.addBack(new int(2));
+    list.addBack(new int(4));
+    list.addValue(1, new int(3));
     assert(list.getSize() == 4);
-
-    SOneNode<int>* pJumpedNode = list.getHead();
     
-    assert(pJumpedNode->m_data == 1);
+    SOneNode<int> *pJumpedNode = list.getHead();
+    
+    assert(*pJumpedNode->m_pData == 1);
     pJumpedNode = pJumpedNode->m_pNext;
-    assert(pJumpedNode->m_data == 3);
+    assert(*pJumpedNode->m_pData == 3);
     pJumpedNode = pJumpedNode->m_pNext;
-    assert(pJumpedNode->m_data == 2);
+    assert(*pJumpedNode->m_pData == 2);
     pJumpedNode = pJumpedNode->m_pNext;
-    assert(pJumpedNode->m_data == 4);
-
+    assert(*pJumpedNode->m_pData == 4);
     list.clear();
 
     // Test the HyperJump function
-    list.addBack(1);
-    list.addBack(2);
-    list.addBack(3);
-    list.addBack(4);
-
+    list.addBack(new int(1));
+    list.addBack(new int(2));
+    list.addBack(new int(3));
+    list.addBack(new int(4));
     pJumpedNode = list.getHead();
     assert(pJumpedNode);
     pJumpedNode = pJumpedNode->HyperJump(2);
     assert(pJumpedNode);
-    assert(pJumpedNode->m_data == 3);
+    assert(*pJumpedNode->m_pData == 3);
     pJumpedNode = pJumpedNode->HyperJump(-1);
     assert(pJumpedNode);
-    assert(pJumpedNode->m_data == 2);
+    assert(*pJumpedNode->m_pData == 2);
     pJumpedNode = pJumpedNode->HyperJump(5);
     assert(pJumpedNode == nullptr);
-
     list.clear();
 
-    std::cout << "All unit tests passed successfully!" << std::endl;
+    std::cout << "All unit tests passed successfully!" << std::endl << std::endl;
 }
 
-int main() 
+int main()
 {
     // DBG: Let's do unit tests first
     runUnitTests(); //normally I put unit test in #ifdef DEBUG block, but as we are testing here even in release target I guess it's ok to be relaxed in test assignment
-
+    
     // Lets add some fun data to our list...
     CLinkedList<std::string> starWarsList;
-    starWarsList.addFront("May the Force be with you");
-    starWarsList.addBack("Do or do not, there is no try");
-    starWarsList.addFront("I find your lack of faith disturbing");
-    starWarsList.addValue(1, "Use the Force, Luke");
-    
+
+    starWarsList.addFront(new std::string("May the Force be with you"));
+    starWarsList.addBack(new std::string("Do or do not, there is no try"));
+    starWarsList.addFront(new std::string("I find your lack of faith disturbing"));
+    starWarsList.addValue(1, new std::string("Use the Force, Luke"));
+
     // Print the list
     std::cout << "Iteration from Head to end" << std::endl;
-    
+
     int                     nodeN = 0;
-    SOneNode<std::string>  *current = starWarsList.getHead();
-    
-    while (current != nullptr) 
+    SOneNode<std::string> * pNode = starWarsList.getHead();
+    while (pNode != nullptr)
     {
-        std::cout << "Node " << nodeN ++ << ": '" << current->m_data << "'" << std::endl;
-        current = current->m_pNext;
+        std::cout << "Node " << nodeN ++ << ": '" << *pNode->m_pData << "'" << std::endl;
+        pNode = pNode->m_pNext;
     }
     std::cout << std::endl;
     
     // Print the list in reverse order
     nodeN --;
     std::cout << "Iteration from Tail to beginning" << std::endl;
-    current = starWarsList.getTailNode();
-    while (current != nullptr) 
+    pNode = starWarsList.getTailNode();
+    while (pNode != nullptr)
     {
-        std::cout << "Node " << nodeN -- << ": '" << current->m_data << "'" << std::endl;
-        current = current->m_pPrev;
+        std::cout << "Node " << nodeN -- << ": '" << *pNode->m_pData << "'" << std::endl;
+        pNode = pNode->m_pPrev;
     }
     std::cout << std::endl;
     
     // Demonstrate HyperJump function
-    current = starWarsList.getHead();
-    SOneNode<std::string>* jumped = current->HyperJump(2);
-    if (jumped != nullptr) 
+    pNode = starWarsList.getHead();
+    
+    SOneNode<std::string> *jumped = pNode->HyperJump(2);
+    
+    if (jumped != nullptr)
     {
-        std::cout << "HyperJump(head + 2): " << jumped->m_data << std::endl;
-        
+        std::cout << "HyperJump(head + 2): " << *jumped->m_pData << std::endl;
         jumped = jumped->HyperJump(-1);
-        if (jumped != nullptr) 
+        if (jumped != nullptr)
         {
-            std::cout << "HyperJump(last jump node-1): " << jumped->m_data << std::endl;
-        } else 
+            std::cout << "HyperJump(last jump node-1): " << *jumped->m_pData << std::endl;
+        } else
         {
             std::cout << "HyperJump(last jump node-1): Out of bounds" << std::endl;
         }
@@ -319,7 +302,6 @@ int main()
     {
         std::cout << "HyperJump(head + 2): Out of bounds" << std::endl;
     }
-
+    
     return 0;
 }
-
