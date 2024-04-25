@@ -305,3 +305,28 @@ int main()
     
     return 0;
 }
+
+
+/* CLI console output:
+
+All unit tests passed successfully!
+
+Iteration from Head to end
+Node 0: 'I find your lack of faith disturbing'
+Node 1: 'Use the Force, Luke'
+Node 2: 'May the Force be with you'
+Node 3: 'Do or do not, there is no try'
+
+Iteration from Tail to beginning
+Node 3: 'Do or do not, there is no try'
+Node 2: 'May the Force be with you'
+Node 1: 'Use the Force, Luke'
+Node 0: 'I find your lack of faith disturbing'
+
+HyperJump(head + 2): May the Force be with you
+HyperJump(last jump node-1): Use the Force, Luke
+
+
+...Program finished with exit code 0
+Press ENTER to exit console.
+*/
