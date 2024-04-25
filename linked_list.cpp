@@ -25,25 +25,26 @@ template <typename T> struct SOneNode
     
     SOneNode * HyperJump(int stepsN)
     {
-        SOneNode * pCurrentNode = this;
+        SOneNode * pCurNode = this;
         
         if(stepsN > 0)
         {
-            while (pCurrentNode != nullptr && stepsN > 0)
+            while (pCurNode != nullptr && stepsN > 0)
             {
-                pCurrentNode = pCurrentNode->m_pNext;
+                pCurNode = pCurNode->m_pNext;
                 stepsN --;
             }
         }
         else if(stepsN < 0)
         {
-            while (pCurrentNode != nullptr && stepsN < 0)
+            while (pCurNode != nullptr && stepsN < 0)
             {
-                pCurrentNode = pCurrentNode->m_pPrev;
+                pCurNode = pCurNode->m_pPrev;
                 stepsN ++;
             }
         }
-        return pCurrentNode;
+        
+        return pCurNode;
     }
 };
 
@@ -69,83 +70,88 @@ public:
     bool          isEmpty() const { return m_size == 0; }
     void          clear()
     {
-        SOneNode < T > * current = m_pHead;
-        while(current != nullptr)
+        SOneNode<T>*    pCurNode = m_pHead;
+        
+        while (pCurNode)
         {
-            SOneNode < T > * ptrToKill = current;
-            current = current->m_pNext;
+            SOneNode<T> * ptrToKill = pCurNode;
+            
+            pCurNode = pCurNode->m_pNext;
             delete ptrToKill;
         }
         m_pHead = nullptr;
         m_pTail = nullptr;
         m_size = 0;
     }
-    void          addFront(T * pData)
+    SOneNode<T>* addFront(T* pData, bool bAutoDeallocateData = true)
     {
-        SOneNode<T> * newNode = new SOneNode<T>(pData);
+        SOneNode<T>* pNewNode = new SOneNode<T>(pData, bAutoDeallocateData);
         
         if (isEmpty())
         {
-            m_pHead = newNode;
-            m_pTail = newNode;
-        }
-        else
+            m_pHead = pNewNode;
+            m_pTail = pNewNode;
+        } else
         {
-            newNode->m_pNext = m_pHead;
-            m_pHead->m_pPrev = newNode;
-            m_pHead = newNode;
+            pNewNode->m_pNext = m_pHead;
+            m_pHead->m_pPrev = pNewNode;
+            m_pHead = pNewNode;
         }
         m_size ++;
+        
+        return pNewNode;
     }
-    void          addBack(T * pData)
+    SOneNode<T>* addBack(T* pData, bool bAutoDeallocateData = true)
     {
-        SOneNode<T> * newNode = new SOneNode<T>(pData);
+        SOneNode<T>* pNewNode = new SOneNode<T>(pData, bAutoDeallocateData);
+        
         if (isEmpty())
         {
-            m_pHead = newNode;
-            m_pTail = newNode;
-        }
-        else
+            m_pHead = pNewNode;
+            m_pTail = pNewNode;
+        } else
         {
-            newNode->m_pPrev = m_pTail;
-            m_pTail->m_pNext = newNode;
-            m_pTail = newNode;
+            pNewNode->m_pPrev = m_pTail;
+            m_pTail->m_pNext = pNewNode;
+            m_pTail = pNewNode;
         }
         m_size ++;
+        
+        return pNewNode;
     }
-    void addValue(int posN, T * pData)
+    SOneNode<T>* insertInside(int posN, T* pData, bool bAutoDeallocateData = true)
     {
         if (posN < 0 || posN > (int)m_size)
-            return; // Invalid pos
+            return nullptr; // Invalid pos
             
         if (posN == 0)
         {
-            addFront(pData);
-            return;
+            return addFront(pData, bAutoDeallocateData);
         } else if(posN == (int)m_size)
         {
-            addBack(pData);
-            return;
+            return addBack(pData, bAutoDeallocateData);
         }
         
-        SOneNode < T > * current = m_pHead;
+        SOneNode<T>* pCurNode = m_pHead;
         
         for (int i = 0; i < posN; i ++)
         {
-            current = current->m_pNext;
+            pCurNode = pCurNode->m_pNext;
         }
         
-        SOneNode<T> * newNode = new SOneNode<T>(pData);
+        SOneNode<T>* pNewNode = new SOneNode<T>(pData, bAutoDeallocateData);
         
-        newNode->m_pPrev = current->m_pPrev;
-        newNode->m_pNext = current;
-        current->m_pPrev->m_pNext = newNode;
-        current->m_pPrev = newNode;
+        pNewNode->m_pPrev = pCurNode->m_pPrev;
+        pNewNode->m_pNext = pCurNode;
+        pCurNode->m_pPrev->m_pNext = pNewNode;
+        pCurNode->m_pPrev = pNewNode;
         m_size ++;
+        
+        return pNewNode;
     }
     void removeFront()
     {
-        if (isEmpty())
+        if (!m_pHead)
             return;
             
         SOneNode<T> * temp = m_pHead;
@@ -164,7 +170,7 @@ public:
     }
     void removeBack()
     {
-        if(isEmpty())
+        if(!m_pTail)
             return;
             
         SOneNode<T> * temp = m_pTail;
@@ -208,11 +214,11 @@ void runUnitTests()
     assert(list.isEmpty());
     assert(list.getSize() == 0);
 
-    // Test adding value at position
+    // Test adding node at position
     list.addBack(new int(1));
     list.addBack(new int(2));
     list.addBack(new int(4));
-    list.addValue(1, new int(3));
+    list.insertInside(1, new int(3));
     assert(list.getSize() == 4);
     
     SOneNode<int> *pJumpedNode = list.getHead();
@@ -257,7 +263,7 @@ int main()
     starWarsList.addFront(new std::string("May the Force be with you"));
     starWarsList.addBack(new std::string("Do or do not, there is no try"));
     starWarsList.addFront(new std::string("I find your lack of faith disturbing"));
-    starWarsList.addValue(1, new std::string("Use the Force, Luke"));
+    starWarsList.insertInside(1, new std::string("Use the Force, Luke"));
 
     // Print the list
     std::cout << "Iteration from Head to end" << std::endl;
@@ -306,27 +312,3 @@ int main()
     return 0;
 }
 
-
-/* CLI console output:
-
-All unit tests passed successfully!
-
-Iteration from Head to end
-Node 0: 'I find your lack of faith disturbing'
-Node 1: 'Use the Force, Luke'
-Node 2: 'May the Force be with you'
-Node 3: 'Do or do not, there is no try'
-
-Iteration from Tail to beginning
-Node 3: 'Do or do not, there is no try'
-Node 2: 'May the Force be with you'
-Node 1: 'Use the Force, Luke'
-Node 0: 'I find your lack of faith disturbing'
-
-HyperJump(head + 2): May the Force be with you
-HyperJump(last jump node-1): Use the Force, Luke
-
-
-...Program finished with exit code 0
-Press ENTER to exit console.
-*/
