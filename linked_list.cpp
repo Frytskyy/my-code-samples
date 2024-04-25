@@ -4,11 +4,13 @@
 //
 //  CONTACT INFORMATION: fritskiy(At) gmail(dot) com
 //
+//  This it a quick assignment to show my C++ coding skills, I had few hours to do my implementation of linked list
 //  The simplest way to launch this code is to simply copy-paste it to https://www.onlinegdb.com/ and press Run button
 
 #include <iostream>
 #include <string>
 #include <cassert>
+
 
 // Single Node struct of our linked list
 template <typename T> struct SOneNode
@@ -74,10 +76,10 @@ public:
         
         while (pCurNode)
         {
-            SOneNode<T> * ptrToKill = pCurNode;
+            SOneNode<T> * pNodeToKill = pCurNode;
             
             pCurNode = pCurNode->m_pNext;
-            delete ptrToKill;
+            delete pNodeToKill;
         }
         m_pHead = nullptr;
         m_pTail = nullptr;
@@ -154,7 +156,7 @@ public:
         if (!m_pHead)
             return;
             
-        SOneNode<T> * temp = m_pHead;
+        SOneNode<T> * pNodeToKill = m_pHead;
         
         if (m_pHead == m_pTail)
         {
@@ -165,7 +167,7 @@ public:
             m_pHead = m_pHead->m_pNext;
             m_pHead->m_pPrev = nullptr;
         }
-        delete temp;
+        delete pNodeToKill;
         m_size--;
     }
     void removeBack()
@@ -173,7 +175,7 @@ public:
         if(!m_pTail)
             return;
             
-        SOneNode<T> * temp = m_pTail;
+        SOneNode<T> * pNodeToKill = m_pTail;
         
         if (m_pHead == m_pTail)
         {
@@ -184,7 +186,7 @@ public:
             m_pTail = m_pTail->m_pPrev;
             m_pTail->m_pNext = nullptr;
         }
-        delete temp;
+        delete pNodeToKill;
         m_size --;
     }
 };
