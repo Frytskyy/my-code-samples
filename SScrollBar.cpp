@@ -18,13 +18,6 @@
 #include <math.h>
 
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-
 #define REPEAT_TIMER_EVENT_ID				1
 #define SCROLL_AUTO_REPEAT_DELAY_TIME		150
 
